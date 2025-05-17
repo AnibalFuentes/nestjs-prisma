@@ -1,9 +1,23 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+import { PrismaService } from 'src/prisma.service';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './constants';
 
 @Module({
+  imports: [
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
+  ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [
+    UsersService,
+    PrismaService,
+    // Elimina los guards globales, se usarán solo con @UseGuards en los endpoints necesarios
+  ],
 })
 export class UsersModule {}

@@ -1,10 +1,12 @@
 import {
   IsBoolean,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Role } from 'generated/prisma/client';
 
 export class CreateUserDto {
   @IsOptional()
@@ -26,4 +28,8 @@ export class CreateUserDto {
   @IsOptional()
   @IsBoolean()
   blocked: boolean;
+
+  @IsOptional()
+  @IsEnum(Role)
+  role: Role;
 }
